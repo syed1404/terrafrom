@@ -13,12 +13,23 @@ variable "vpc_name" {
 variable "vpc_public_subnet" {
     description = "The public subnet of VPC"
     type = string
-    default = "10.0.1.0/24"
+    default = "10.0.0.0/24"
 }
 variable "vpc_public_subnet_name" {
     description = "The name of public subnet of VPC"
     type = string
     default = "public test"
+  
+}
+variable "vpc_public_subnet1" {
+    description = "The public subnet of VPC"
+    type = string
+    default = "10.0.2.0/24"
+}
+variable "vpc_public_subnet_name1" {
+    description = "The name of public subnet of VPC"
+    type = string
+    default = "public test1"
   
 }
 
@@ -71,7 +82,7 @@ variable "egress_rule" {
     default = [ {
       from_port = 0
       to_port = 0
-      protocol = "Any"
+      protocol = "-1"
       cidr_block = [ "0.0.0.0/0" ]
     } ]
   

@@ -13,7 +13,7 @@ resource "aws_vpc" "test" {
 
 # Public subnet 1 creation
 resource "aws_subnet" "public_subnet_1" {
-  vpc_id                  = aws_vpc.test
+  vpc_id                  = aws_vpc.test.id
   cidr_block              = var.vpc_public_subnet
   availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true
@@ -22,9 +22,20 @@ resource "aws_subnet" "public_subnet_1" {
   }
 }
 
+# Public subnet 2 creation
+resource "aws_subnet" "public_subnet_2" {
+  vpc_id                  = aws_vpc.test.id
+  cidr_block              = var.vpc_public_subnet1
+  availability_zone       = "us-east-1a"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = var.vpc_public_subnet_name1
+  }
+}
+
 # Private subnet 1 creation
 resource "aws_subnet" "private_subnet_1" {
-  vpc_id                  = aws_vpc.test
+  vpc_id                  = aws_vpc.test.id
   cidr_block              = var.vpc_private_subnet
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = false
@@ -35,7 +46,7 @@ resource "aws_subnet" "private_subnet_1" {
 
 # Internet Gateway creation
 resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.test
+  vpc_id = aws_vpc.test.id
   tags = {
     Name = "ig-gateway"
   }
@@ -43,7 +54,7 @@ resource "aws_internet_gateway" "main" {
 
 # Route Table creation
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.test
+  vpc_id = aws_vpc.test.id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -63,28 +74,36 @@ resource "aws_route_table_association" "assoc_subnet_1" {
 
 # Route Table Association for subnet 2
 resource "aws_route_table_association" "assoc_subnet_2" {
-  subnet_id      = aws_subnet.public_subnet_2.id
+  subnet_id      = aws_subnet.private_subnet_1.id
   route_table_id = aws_route_table.public.id
 }
 
 # Security Group creation
 resource "aws_security_group" "instance_sg" {
-  vpc_id = aws_vpc.test
+  vpc_id = aws_vpc.test.id
 
-  # Allow inbound HTTP traffic
-  ingress {
+  # Allow inbound traffic
+  dynamic "ingress" {
+    for_each = var.ingress_rule
+    content {
     from_port   = ingress.value.from_port
     to_port     = ingress.value.to_port
     protocol    = ingress.value.protocol
     cidr_blocks = ingress.value.cidr_block
+    }
+    
   }
   # Allow all outbound traffic (default behavior)
-  egress {
+  dynamic "egress" {
+    for_each = var.egress_rule
+    content {
     from_port   = egress.value.from_port
     to_port     = egress.value.to_port
     protocol    = egress.value.protocol
     cidr_blocks = egress.value.cidr_block
+    }
   }
+    
 
   tags = {
     Name = var.sg_name
@@ -145,7 +164,7 @@ resource "aws_lb_target_group" "example" {
   name        = "example-target-group"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = aws_vpc.test
+  vpc_id      = aws_vpc.test.id
   target_type = "instance"  # or "ip" depending on your setup
 
   health_check {
