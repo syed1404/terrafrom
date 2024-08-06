@@ -13,7 +13,7 @@ resource "aws_vpc" "test" {
 
 # Public subnet 1 creation
 resource "aws_subnet" "public_subnet_1" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = aws_vpc.test
   cidr_block              = var.vpc_public_subnet
   availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true
@@ -24,7 +24,7 @@ resource "aws_subnet" "public_subnet_1" {
 
 # Private subnet 1 creation
 resource "aws_subnet" "private_subnet_1" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = aws_vpc.test
   cidr_block              = var.vpc_private_subnet
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = false
@@ -35,7 +35,7 @@ resource "aws_subnet" "private_subnet_1" {
 
 # Internet Gateway creation
 resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.test
   tags = {
     Name = "ig-gateway"
   }
@@ -43,7 +43,7 @@ resource "aws_internet_gateway" "main" {
 
 # Route Table creation
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.test
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -69,7 +69,7 @@ resource "aws_route_table_association" "assoc_subnet_2" {
 
 # Security Group creation
 resource "aws_security_group" "instance_sg" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.test
 
   # Allow inbound HTTP traffic
   ingress {
@@ -145,7 +145,7 @@ resource "aws_lb_target_group" "example" {
   name        = "example-target-group"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.test
   target_type = "instance"  # or "ip" depending on your setup
 
   health_check {
