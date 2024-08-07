@@ -48,9 +48,46 @@ variable "vpc_private_subnet_name" {
 variable "sg_name" {
   description = "Name of security group"
   type = string
-  default = "instance-security-group"
+  default = "lb-security-group"
 }
 variable "ingress_rule" {
+    description = "List of inbound rule"
+    type = list(object({
+      from_port = number
+      to_port = number
+      protocol = string
+      cidr_block = list(string)
+    }))
+    default = [ {
+      from_port = 80
+      to_port = 80
+      protocol = "tcp"
+      cidr_block = [ "0.0.0.0/0" ]
+    }]
+}
+variable "egress_rule" {
+    description = "List of outbound rule"
+    type = list(object({
+      from_port = number
+      to_port = number
+      protocol = string
+      cidr_block = list(string)
+    }))
+    default = [ {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_block = [ "0.0.0.0/0" ]
+    } ]
+  
+}
+
+variable "sg_name1" {
+  description = "Name of security group"
+  type = string
+  default = "instance-security-group"
+}
+variable "ingress_rule1" {
     description = "List of inbound rule"
     type = list(object({
       from_port = number
@@ -71,7 +108,7 @@ variable "ingress_rule" {
       cidr_block = [ "0.0.0.0/0" ]  
     } ]
 }
-variable "egress_rule" {
+variable "egress_rule1" {
     description = "List of outbound rule"
     type = list(object({
       from_port = number
@@ -86,4 +123,18 @@ variable "egress_rule" {
       cidr_block = [ "0.0.0.0/0" ]
     } ]
   
+}
+
+variable "allow_lb_to_ec2" {
+    description = "Allow traffic form ALB to EC2"
+    type = object({
+      from_port = number
+      to_port = number
+      protocol = string
+    })
+    default = {
+      from_port = 80
+      to_port = 80
+      protocol = "tcp"
+    }
 }
