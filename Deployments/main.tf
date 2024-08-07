@@ -174,25 +174,18 @@ resource "aws_security_group_rule" "lb_to_ec2" {
  security_group_id = aws_security_group.instance_sg.id
  source_security_group_id = aws_security_group.alb_sg.id 
 }
-resource "aws_instance" "web_2" {
-  ami           = "ami-0427090fd1714168b"  # Change this to a suitable Amazon Linux 2 AMI in your region
-  instance_type = "t2.micro"
+resource "aws_instance" "web_1" {
+  ami           = var.ami_id  # Change this to a suitable Amazon Linux 2 AMI in your region
+  instance_type = var.instance_type
   subnet_id     = aws_subnet.private_subnet_1.id
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
-  associate_public_ip_address = false
+  associate_public_ip_address = var.public_ip
 
 
-user_data = <<-EOF
-                #!/bin/bash
-                yum update -y
-                yum install -y httpd
-                systemctl start httpd
-                systemctl enable httpd
-                echo "<html><h1>Hello from EC2!</h1></html>" > /var/www/html/index.html
-              EOF
+user_data = var.user_data
 
   tags = {
-    Name = "web-instance"
+    Name = var.ec2_name
   }
 }
 

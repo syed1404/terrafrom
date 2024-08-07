@@ -138,3 +138,41 @@ variable "allow_lb_to_ec2" {
       protocol = "tcp"
     }
 }
+
+variable "ec2_name" {
+    description = "name of ec2 instance"
+    type = string
+    default = "app-ec2-001" 
+}
+variable "instance_type" {
+  description = "The type of ec2"
+  type = string
+  default = "t2.micro"
+}
+variable "ami_id" {
+   description = "The flavour of os"
+   type = string
+   default = "ami-0427090fd1714168b"
+}
+variable "public_ip" {
+    description = "Does the EC2 require a public IP"
+    type = bool
+    default = "false"
+}
+variable "user_data" {
+  description = "The script to run while launching the ec2"
+  type = string
+  default = <<-EOF
+                #!/bin/bash
+                yum update -y
+                yum install -y httpd
+                systemctl start httpd
+                systemctl enable httpd
+                echo "<html><h1>Login Form
+                </h1>
+                        <form>
+                        <label>Username : </label>
+                        <label>Password : </label>
+                        </form> </html>" > /var/www/html/index.html
+              EOF
+}
