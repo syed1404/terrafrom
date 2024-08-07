@@ -144,6 +144,13 @@ variable "ec2_name" {
     type = string
     default = "app-ec2-001" 
 }
+
+variable "rule_type" {
+  description = "wether it is inbound or outbound"
+  type = string
+  default = "ingress"
+}
+
 variable "instance_type" {
   description = "The type of ec2"
   type = string

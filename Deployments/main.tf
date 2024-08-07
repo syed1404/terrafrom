@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"  # Change this to your preferred region
-}
-
 # VPC creation
 resource "aws_vpc" "test" {
   cidr_block = var.vpc_cidr
@@ -167,7 +163,7 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 resource "aws_security_group_rule" "lb_to_ec2" {
- type = "ingress"
+ type = var.rule_type
  from_port = var.allow_lb_to_ec2.from_port
  to_port = var.allow_lb_to_ec2.to_port
  protocol = var.allow_lb_to_ec2.protocol
@@ -189,8 +185,8 @@ user_data = var.user_data
   }
 }
 
-resource "aws_lb" "example" {
-  name               = "example-alb"
+resource "aws_lb" "test" {
+  name               = "test-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
@@ -202,23 +198,20 @@ resource "aws_lb" "example" {
 
   enable_deletion_protection = false
   enable_cross_zone_load_balancing = true
-
-
-   }
-
+}
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.example.arn
+  load_balancer_arn = aws_lb.test.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
     type = "forward"
-    target_group_arn   = aws_lb_target_group.example.arn
+    target_group_arn   = aws_lb_target_group.test.arn
     }
   }
 
-resource "aws_lb_target_group" "example" {
+resource "aws_lb_target_group" "test" {
   name        = "example-target-group"
   port        = 80
   protocol    = "HTTP"
@@ -238,9 +231,9 @@ resource "aws_lb_target_group" "example" {
   }
 }
 resource "aws_lb_target_group_attachment" "example" {
-  count              = length(aws_instance.web_2.*.id)
-  target_group_arn   = aws_lb_target_group.example.arn
-  target_id          = aws_instance.web_2.id
+  count              = length(aws_instance.web_1.*.id)
+  target_group_arn   = aws_lb_target_group.test.arn
+  target_id          = aws_instance.web_1.id
   port               = 80  # Port that the target group listens on
 }
 
