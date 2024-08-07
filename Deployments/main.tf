@@ -186,9 +186,9 @@ user_data = var.user_data
 }
 
 resource "aws_lb" "test" {
-  name               = "test-alb"
-  internal           = false
-  load_balancer_type = "application"
+  name               = var.alb_name
+  internal           = var.alb_scheme
+  load_balancer_type = var.alb_type
   security_groups    = [aws_security_group.alb_sg.id]
   
   subnets            = [
@@ -202,11 +202,11 @@ resource "aws_lb" "test" {
 
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.test.arn
-  port              = 80
-  protocol          = "HTTP"
+  port = var.alb_listener80.port
+  protocol = var.alb_listener80.protocol
 
   default_action {
-    type = "forward"
+    type = var.action_listener
     target_group_arn   = aws_lb_target_group.test.arn
     }
   }

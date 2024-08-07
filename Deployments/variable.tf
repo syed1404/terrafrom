@@ -1,3 +1,4 @@
+#variable for VPC
 variable "vpc_cidr" {
     description = "The CIDR value of VPC"
     type = string
@@ -9,7 +10,7 @@ variable "vpc_name" {
     default = "test"
 }
 
-
+# variable for subnet
 variable "vpc_public_subnet" {
     description = "The public subnet of VPC"
     type = string
@@ -45,6 +46,7 @@ variable "vpc_private_subnet_name" {
   
 }
 
+#variable for security group
 variable "sg_name" {
   description = "Name of security group"
   type = string
@@ -138,7 +140,7 @@ variable "allow_lb_to_ec2" {
       protocol = "tcp"
     }
 }
-
+# variable for EC2
 variable "ec2_name" {
     description = "name of ec2 instance"
     type = string
@@ -146,7 +148,7 @@ variable "ec2_name" {
 }
 
 variable "rule_type" {
-  description = "wether it is inbound or outbound"
+  description = "whether it is inbound or outbound"
   type = string
   default = "ingress"
 }
@@ -182,4 +184,37 @@ variable "user_data" {
                         <label>Password : </label>
                         </form> </html>" > /var/www/html/index.html
               EOF
+}
+#variable for ALB
+variable "alb_name" {
+  description = "Name of ALB"
+  type = string
+  default = "test-alb"
+}
+variable "alb_scheme" {
+    description = "Scheme of ALB"
+    type = bool
+    default = false 
+}
+variable "alb_type" {
+  description = "Type of LB"
+  type = string
+  default = "application"
+}
+#variable for listener & Target group
+variable "alb_listener80" {
+  description = "Ports to listen"
+  type = object({
+    port = number
+    protocol = string
+  })
+  default = {
+    port = 80
+    protocol = "TCP"
+  }
+}
+variable "action_listener" {
+  description = "Listener action"
+  type = string
+  default = "forward"
 }
