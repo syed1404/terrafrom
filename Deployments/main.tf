@@ -212,25 +212,21 @@ resource "aws_lb_listener" "http" {
   }
 
 resource "aws_lb_target_group" "test" {
-  name        = "example-target-group"
-  port        = 80
-  protocol    = "HTTP"
+  name        = var.aws_lb_target_group.name
+  port        = var.aws_lb_target_group.port
+  protocol    = var.aws_lb_target_group.protocol
   vpc_id      = aws_vpc.test.id
-  target_type = "instance"  # or "ip" depending on your setup
+  target_type = var.aws_lb_target_group.target_type  # or "ip" depending on your setup
 
   health_check {
-    path                = "/"
-    interval            = 30
-    timeout             = 5
-    healthy_threshold    = 3
-    unhealthy_threshold  = 3
-  }
-
-  tags = {
-    Name = "example-target-group"
+    path                 = var.alb_health.path
+    interval             = var.alb_health.interval
+    timeout              = var.alb_health.timeout
+    healthy_threshold    = var.alb_health.healthy_threshold
+    unhealthy_threshold  = var.alb_health.unhealthy_threshold
   }
 }
-resource "aws_lb_target_group_attachment" "example" {
+resource "aws_lb_target_group_attachment" "test" {
   count              = length(aws_instance.web_1.*.id)
   target_group_arn   = aws_lb_target_group.test.arn
   target_id          = aws_instance.web_1.id

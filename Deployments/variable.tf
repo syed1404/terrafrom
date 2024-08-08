@@ -212,3 +212,35 @@ variable "action_listener" {
   type = string
   default = "forward"
 }
+variable "alb_health" {
+  description = "health check of ALB"
+  type = object({
+    path                 = string
+    interval             = number
+    timeout              = number
+    healthy_threshold    = number
+    unhealthy_threshold  = number
+  })
+  default = {
+    path                 = "/"
+    interval             = 30
+    timeout              = 5
+    healthy_threshold    = 3
+    unhealthy_threshold  = 3
+  }
+}
+variable "aws_lb_target_group" {
+  description = "Target group for ALB"
+  type = object({
+    name        = string
+    port        = number
+    protocol    = string
+    target_type = string
+  })
+  default = {
+    name = "test-target-group"
+    port = 80
+    protocol = "HTTP"
+    target_type = "instance"
+  }
+}
