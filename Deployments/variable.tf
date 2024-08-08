@@ -97,12 +97,7 @@ variable "ingress_rule1" {
       protocol = string
       cidr_block = list(string)
     }))
-    default = [ {
-      from_port = 80
-      to_port = 80
-      protocol = "tcp"
-      cidr_block = [ "0.0.0.0/0" ]
-    },
+    default = [
     {
       from_port = 22
       to_port = 22
@@ -126,7 +121,6 @@ variable "egress_rule1" {
     } ]
   
 }
-
 variable "allow_lb_to_ec2" {
     description = "Allow traffic form ALB to EC2"
     type = object({
@@ -210,7 +204,7 @@ variable "alb_listener80" {
   })
   default = {
     port = 80
-    protocol = "TCP"
+    protocol = "HTTP"
   }
 }
 variable "action_listener" {

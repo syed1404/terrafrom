@@ -207,7 +207,7 @@ resource "aws_lb_listener" "http" {
 
   default_action {
     type = var.action_listener
-    target_group_arn   = aws_lb_target_group.test.arn
+    target_group_arn = aws_lb_target_group.test.arn
     }
   }
 
