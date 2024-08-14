@@ -9,7 +9,6 @@ variable "vpc_name" {
     type = string
     default = "test"
 }
-
 # variable for subnet
 variable "vpc_public_subnet" {
     description = "The public subnet of VPC"
