@@ -243,3 +243,9 @@ variable "aws_lb_target_group" {
     target_type = "instance"
   }
 }
+
+#################################
+variable "public_subnet1" {
+  type = string
+  default = "./module/subnet"
+}
