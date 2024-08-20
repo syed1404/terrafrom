@@ -4,3 +4,6 @@ resource "aws_internet_gateway" "main" {
     Name = var.ig_name
   }
 }
+output "ig_gateway" {
+  value = aws_internet_gateway.main.id
+}

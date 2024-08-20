@@ -245,7 +245,5 @@ variable "aws_lb_target_group" {
 }
 
 #################################
-variable "public_subnet1" {
-  type = string
-  default = "./module/subnet"
-}
+
+
