@@ -4,7 +4,7 @@ variable "user_data" {
   default =  <<-EOF
                 #!/bin/bash
                 yum update -y
-                yum install -y httpd
+                yum install -y httpd    
                 systemctl start httpd
                 systemctl enable httpd
 
