@@ -94,3 +94,32 @@ variable "rule_type" {
   type = string
   default = "ingress"
 }
+
+variable "sg_name2" {
+  description = "Name of security group"
+  type = string
+  default = "instance-security-group2"
+}
+
+variable "allow_ec2_to_ec2" {
+    description = "Allow traffic form ALB to EC2"
+    type = object({
+      from_port = number
+      to_port = number
+      protocol = string
+    })
+    default = {
+      from_port = 22
+      to_port = 22
+      protocol = "tcp"
+    }
+}
+variable "ec2_web2_private_ip" {
+  type = string
+}
+
+variable "sg_name3" {
+  description = "Name of security group"
+  type = string
+  default = "ilb-security-group"
+}

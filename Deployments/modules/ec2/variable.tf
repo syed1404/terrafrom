@@ -119,11 +119,18 @@ variable "public_ip" {
 variable "private_subnet1" {
   type = string
 }
+variable "public_subnet1" {
+  type = string
+}
 variable "ec2_name" {
     description = "name of ec2 instance"
     type = string
     default = "app-ec2-001" 
 }
 variable "instance_sg" {
+  type = string
+}
+
+variable "instance_sg1" {
   type = string
 }

@@ -36,12 +36,15 @@ module "route_table" {
 module "security_group" {
   source = "./modules/security group"
   vpc_id = module.vpc_test.vpc_id
+  ec2_web2_private_ip = module.ec2_web.ec2_web2_private_ip
 }
 
 module "ec2_web" {
   source = "./modules/ec2"
   instance_sg = module.security_group.instance_sg
   private_subnet1 = module.vpc_subnet.private_subnet1
+  public_subnet1 = module.vpc_subnet.public_subnet1
+  instance_sg1 = module.security_group.instance_sg1
 }
 
 module "alb" {
@@ -51,4 +54,7 @@ module "alb" {
   alb_sg = module.security_group.lb_sg
   public_subnet1 = module.vpc_subnet.public_subnet1
   public_subnet2 = module.vpc_subnet.private_subnet2
+  private_subnet1 = module.vpc_subnet.private_subnet1
+  private_subnet2 = module.vpc_subnet.private_subnet2
+  ilb_sg = module.security_group.ilb_sg
 }
