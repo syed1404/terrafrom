@@ -35,7 +35,7 @@ resource "aws_lb_target_group" "test" {
   }
 }
 resource "aws_lb_target_group_attachment" "test" {
-  count = 0
+  count = 1
   target_group_arn   = aws_lb_target_group.test.arn
   target_id          = aws_lb.internal.id
   port               = 80  # Port that the target group listens on
