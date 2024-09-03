@@ -47,7 +47,7 @@ resource "aws_security_group" "alb_sg" {
     Name = var.sg_name
   }
 }
-output "lb_sg" {
+output "alb_sg" {
   value = aws_security_group.alb_sg.id
 }
 resource "aws_security_group_rule" "lb_to_ec2" {
@@ -107,7 +107,7 @@ resource "aws_security_group" "ailb_sg" {
     Name = var.sg_name3
   }
 }
-output "ilb_sg" {
+output "ailb_sg" {
   value = aws_security_group.ailb_sg.id
 }
 

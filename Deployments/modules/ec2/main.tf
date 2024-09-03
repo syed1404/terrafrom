@@ -9,7 +9,7 @@ resource "aws_instance" "web_1" {
     Name = var.ec2_name
   }
 }
-output "ec2_web1" {
+output "web1" {
   value = aws_instance.web_1.id
 }
 

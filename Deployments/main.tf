@@ -49,12 +49,12 @@ module "ec2_web" {
 
 module "alb" {
   source = "./modules/alb"
-  ec2_web1 = module.ec2_web.ec2_web1
   vpc_id = module.vpc_test.vpc_id
-  alb_sg = module.security_group.lb_sg
-  public_subnet1 = module.vpc_subnet.public_subnet1
-  public_subnet2 = module.vpc_subnet.private_subnet2
   private_subnet1 = module.vpc_subnet.private_subnet1
   private_subnet2 = module.vpc_subnet.private_subnet2
-  ilb_sg = module.security_group.ilb_sg
+  public_subnet1 = module.vpc_subnet.public_subnet1
+  public_subnet2 = module.vpc_subnet.public_subnet2
+  ailb_sg = module.security_group.ailb_sg
+  alb_sg = module.security_group.alb_sg
+  web1 = module.ec2_web.web1
 }
