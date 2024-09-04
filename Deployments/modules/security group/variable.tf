@@ -123,3 +123,8 @@ variable "sg_name3" {
   type = string
   default = "ilb-security-group"
 }
+
+variable "sg_name4" {
+  type = string
+  default = "rds-security-group"
+}

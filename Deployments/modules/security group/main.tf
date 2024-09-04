@@ -119,3 +119,35 @@ resource "aws_security_group_rule" "lb_to_ilb" {
  security_group_id = aws_security_group.ailb_sg.id
  source_security_group_id = aws_security_group.alb_sg.id
 }
+
+resource "aws_security_group" "rds_sg" {
+  vpc_id = var.vpc_id
+
+  dynamic "egress" {
+    for_each = var.egress_rule1
+    content {
+    from_port   = egress.value.from_port
+    to_port     = egress.value.to_port
+    protocol    = egress.value.protocol
+    cidr_blocks = egress.value.cidr_block
+    }
+  }
+
+  tags = {
+    Name = var.sg_name2
+  }
+
+}
+
+resource "aws_security_group_rule" "prvserver_to_db" {
+  type              = var.rule_type
+  from_port         = var.prvserver_to_db.from_port
+  to_port           = var.prvserver_to_db.to_port
+  protocol          = var.prvserver_to_db.protocol
+  cidr_blocks       = ["${var.ec2_web1_private_ip}/32"]
+  security_group_id =aws_security_group.rds_sg.id
+}
+
+output "rds_sg" {
+  value = aws_security_group.rds_sg.id
+}

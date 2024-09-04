@@ -27,3 +27,7 @@ output "ec2_web2_private_ip" {
   value = aws_instance.web_2.private_ip
 }
 
+output "ec2_web1_private_ip" {
+  value = aws_instance.web_1.private_ip
+}
+

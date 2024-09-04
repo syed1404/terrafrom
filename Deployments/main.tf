@@ -37,6 +37,7 @@ module "security_group" {
   source = "./modules/security group"
   vpc_id = module.vpc_test.vpc_id
   ec2_web2_private_ip = module.ec2_web.ec2_web2_private_ip
+  ec2_web1_private_ip = module.ec2_web.ec2_web1_private_ip
 }
 
 module "ec2_web" {
@@ -57,4 +58,11 @@ module "alb" {
   ailb_sg = module.security_group.ailb_sg
   alb_sg = module.security_group.alb_sg
   web1 = module.ec2_web.web1
+}
+
+module "rds" {
+  source = "./modules/rds"
+  private_subnet1 = module.vpc_subnet.private_subnet1
+  private_subnet2 = module.vpc_subnet.private_subnet2
+  rds_sg = module.security_group.rds_sg
 }
