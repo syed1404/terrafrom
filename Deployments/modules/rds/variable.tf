@@ -42,3 +42,12 @@ variable "db_subnet_group_name_v" {
   type    = string
   default = "db_subnet_grp"
 }
+variable "private_subnet1" {
+  type = string
+}
+variable "private_subnet2" {
+  type = string
+}
+variable "rds_sg" {
+  type = string
+}
