@@ -128,3 +128,20 @@ variable "sg_name4" {
   type = string
   default = "rds-security-group"
 }
+
+variable "ec2_web1_private_ip" {
+  type = string
+}
+variable "prvserver_to_db" {
+  description = "Allow traffic from ALB to EC2"
+  type = object({
+    from_port = number
+    to_port   = number
+    protocol  = string
+  })
+  default = {
+    from_port = 3306
+    to_port   = 3306
+    protocol  = "tcp"
+  }
+}

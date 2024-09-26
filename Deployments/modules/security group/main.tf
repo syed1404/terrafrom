@@ -134,7 +134,7 @@ resource "aws_security_group" "rds_sg" {
   }
 
   tags = {
-    Name = var.sg_name2
+    Name = var.sg_name4
   }
 
 }

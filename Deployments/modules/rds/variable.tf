@@ -16,7 +16,7 @@ variable "rds_instance_type" {
 }
 variable "db_name" {
   type    = string
-  default = "rds-test"
+  default = "rdstest14"
 }
 variable "db_username" {
   type    = string
@@ -24,7 +24,7 @@ variable "db_username" {
 }
 variable "db_password" {
   type    = string
-  default = "Password@123"
+  default = "Podapunnaku123"
 }
 variable "parameter_group_name_v" {
   type    = string

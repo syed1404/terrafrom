@@ -18,7 +18,7 @@ resource "aws_instance" "web_2" {
   instance_type = var.instance_type
   subnet_id     = var.public_subnet1
   vpc_security_group_ids = [var.instance_sg1]
-  associate_public_ip_address = var.public_ip
+  associate_public_ip_address = var.public_ip_true
 }
 output "ec2_web2" {
   value = aws_instance.web_2.id

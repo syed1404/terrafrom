@@ -114,7 +114,12 @@ variable "ami_id" {
 variable "public_ip" {
     description = "Does the EC2 require a public IP"
     type = bool
-    default = "false"
+    default = false
+}
+variable "public_ip_true" {
+    description = "Does the EC2 require a public IP"
+    type = bool
+    default = true
 }
 variable "private_subnet1" {
   type = string
